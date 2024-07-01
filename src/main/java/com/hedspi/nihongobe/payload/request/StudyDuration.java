@@ -1,7 +1,5 @@
 package com.hedspi.nihongobe.payload.request;
 
-import java.util.Date;
-
 public class StudyDuration {
     private Integer duration;//second
 

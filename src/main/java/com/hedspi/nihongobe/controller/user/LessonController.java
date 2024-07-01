@@ -5,7 +5,9 @@ import com.hedspi.nihongobe.payload.response.LessonFlashcard;
 import com.hedspi.nihongobe.payload.response.LessonResponse;
 import com.hedspi.nihongobe.service.LessonService;
 import com.hedspi.nihongobe.utils.BasicInfo;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -14,12 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/lessons")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('user')")
+@PreAuthorize("hasAnyAuthority('user')")
 public class LessonController {
     private final LessonService lessonService;
 
@@ -33,7 +36,7 @@ public class LessonController {
     @GetMapping("/{lesson_id}")
     public ResponseEntity<LessonDetail> getLessonDetailByIdAndUserId(@PathVariable("lesson_id")Integer lessonId, Authentication authentication) {
         String userId = BasicInfo.getUserIdByAuthentication(authentication);
-        LessonDetail lessonDetail = lessonService.getLessonDetailByIdAndUserId(lessonId, userId);
+        LessonDetail lessonDetail = lessonService.getActivatedLessonDetailByIdAndUserId(lessonId, userId);
         return ResponseEntity.ok().body(lessonDetail);
     }
 
@@ -41,5 +44,10 @@ public class LessonController {
     public ResponseEntity<List<LessonFlashcard>> getLessonFlashcardById(@PathVariable("lesson_id")Integer lessonId) {
         List<LessonFlashcard> flashcards = lessonService.getLessonFlashcardById(lessonId);
         return ResponseEntity.ok(flashcards);
+    }
+
+    @GetMapping(value = "/{id}/play", produces = MediaType.ALL_VALUE)
+    public void play(@PathVariable Integer id, HttpServletResponse response) throws IOException {
+        lessonService.play(id, response);
     }
 }

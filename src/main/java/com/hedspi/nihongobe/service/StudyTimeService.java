@@ -48,10 +48,10 @@ public class StudyTimeService {
         Lesson lesson = lessonRepository.findById(studyLessonDuration.getLessonId()).orElseThrow();
         Progress progress = progressRepository.findByLessonAndUserId(lesson, userId).orElseThrow();
         Progress nextLessonProgress;
-        int remainingDuration = progress.getDuration() < studyLessonDuration.getDuration()
-                ? 0 : progress.getDuration() - studyLessonDuration.getDuration();
-        progress.setDuration(remainingDuration);
-        if (remainingDuration == 0) {
+        int studiedDuration = progress.getDuration() + studyLessonDuration.getDuration() > lesson.getDuration()
+                ? lesson.getDuration() : progress.getDuration() + studyLessonDuration.getDuration();
+        progress.setDuration(studiedDuration);
+        if (studiedDuration == lesson.getDuration()) {
             if (progress.getStatus().equals(Status.STUDYING)) progress.setStatus(Status.STUDIED);
             nextLessonProgress = progressRepository.findByUserIdAndLesson_No(userId, progress.getLesson().getNo()+1).orElse(progress);
             if (nextLessonProgress.getStatus().equals(Status.LOCKED)) {

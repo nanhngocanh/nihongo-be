@@ -1,53 +1,27 @@
-package com.hedspi.nihongobe.entity;
+package com.hedspi.nihongobe.payload.data;
 
 import com.hedspi.nihongobe.enums.Type;
-import jakarta.persistence.*;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-@Entity
-@Table(name = "lesson_theory")
-@EntityListeners(AuditingEntityListener.class)
-public class LessonTheory {
-    @Id
-    @Column(name = "id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class Theory {
     private Integer id;
-
-    @ManyToOne()
-    @JoinColumn(name = "lesson_id")
-    private Lesson lesson;
-
-    @Column(name = "type")
-    @Enumerated(EnumType.ORDINAL)
     private Type type;
-
-    @Column(name = "term")
     private String term;
-
-    @Column(name = "definition")
     private String definition;
-
-    @Column(name = "description")
     private String description;
 
-    public LessonTheory(Integer id, Lesson lesson, Type type, String term, String definition, String description) {
+    public Theory(Type type, String term, String definition, String description) {
+        this.type = type;
+        this.term = term;
+        this.definition = definition;
+        this.description = description;
+    }
+
+    public Theory(Integer id, Type type, String term, String definition, String description) {
         this.id = id;
-        this.lesson = lesson;
         this.type = type;
         this.term = term;
         this.definition = definition;
         this.description = description;
-    }
-
-    public LessonTheory(Lesson lesson, Type type, String term, String definition, String description) {
-        this.lesson = lesson;
-        this.type = type;
-        this.term = term;
-        this.definition = definition;
-        this.description = description;
-    }
-
-    public LessonTheory() {
     }
 
     public Integer getId() {
@@ -58,12 +32,7 @@ public class LessonTheory {
         this.id = id;
     }
 
-    public Lesson getLesson() {
-        return lesson;
-    }
-
-    public void setLesson(Lesson lesson) {
-        this.lesson = lesson;
+    public Theory() {
     }
 
     public Type getType() {

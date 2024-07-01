@@ -39,7 +39,7 @@ public class TestService {
             newList.add(new Answer(list.get(randomIndex),false));
 
             // Remove selected element from original list
-            list.remove(list.get(randomIndex));
+//            list.remove(list.get(randomIndex));
         }
         return newList;
     }
@@ -66,7 +66,7 @@ public class TestService {
     }
     public List<TestQuestion> createTestByLessonId(Integer lessonId){
         List<TestQuestion> questionList = new ArrayList<>();
-        Lesson lesson = lessonRepository.findById(lessonId).orElseThrow();
+        Lesson lesson = lessonRepository.findByIdAndIsActiveTrue(lessonId).orElseThrow();
         List<String> incorrectVocabInAnotherLesson = getIncorrectAnswerInAnotherLessonByType(lesson,Type.VOCABULARY);
         List<String> incorrectGrammarInAnotherLesson = getIncorrectAnswerInAnotherLessonByType(lesson,Type.GRAMMAR);
         List<String> incorrectSentenceInAnotherLesson = getIncorrectAnswerInAnotherLessonByType(lesson,Type.SENTENCE);

@@ -1,6 +1,8 @@
 package com.hedspi.nihongobe.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
@@ -34,9 +36,11 @@ public class Lesson {
     @Column(name = "duration")
     private Integer duration;
 
+    @CreationTimestamp
     @Column(name = "create_at")
     private Instant createAt;
 
+    @UpdateTimestamp
     @Column(name = "update_at")
     private Instant updateAt;
 
@@ -133,6 +137,15 @@ public class Lesson {
         this.duration = duration;
         this.createAt = createAt;
         this.updateAt = updateAt;
+        this.isActive = isActive;
+    }
+
+    public Lesson(Integer no, String title, String description, String sample, Integer duration, Boolean isActive) {
+        this.no = no;
+        this.title = title;
+        this.description = description;
+        this.sample = sample;
+        this.duration = duration;
         this.isActive = isActive;
     }
 

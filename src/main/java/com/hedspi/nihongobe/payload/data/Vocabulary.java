@@ -1,31 +1,29 @@
 package com.hedspi.nihongobe.payload.data;
 
-public class Vocabulary {
-    private String term;
-    private String definition;
+import com.hedspi.nihongobe.payload.response.LessonFlashcard;
 
-    public Vocabulary(String term, String definition) {
-        this.term = term;
-        this.definition = definition;
+public class Vocabulary extends LessonFlashcard {
+    private String example;
+
+    public Vocabulary(String term, String definition, String example) {
+        super(term, definition);
+        this.example = example;
+    }
+
+    public Vocabulary(String example) {
+        this.example = example;
     }
 
     public Vocabulary() {
     }
 
-    public String getTerm() {
-        return term;
+
+    public String getExample() {
+        return example;
     }
 
-    public void setTerm(String term) {
-        this.term = term;
-    }
-
-    public String getDefinition() {
-        return definition;
-    }
-
-    public void setDefinition(String definition) {
-        this.definition = definition;
+    public void setExample(String example) {
+        this.example = example;
     }
 }
 

@@ -14,4 +14,7 @@ public interface ProgressRepository extends JpaRepository<Progress, Integer> {
     Optional<Progress> findByLessonAndUserId(Lesson lesson, String userId);
     @Query("select new com.hedspi.nihongobe.payload.response.LessonResponse(p.lesson.id, p.lesson.no, p.lesson.title, p.status) from Progress p where p.userId=:userId and p.lesson.isActive=true order by p.lesson.no asc ")
     List<LessonResponse> getActivatedLessonsByUserId(String userId);
+
+    @Query("select distinct p.userId from Progress p")
+    List<String> getStudyingUsers();
 }
